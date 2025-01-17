@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Managing the Event</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .match-container {
+      border: 2px solid #4A5568; /* Gray border */
+      padding: 16px;
+      border-radius: 8px;
+      background-color: #E2E8F0; /* Light gray background */
+    }
+    .vs-text {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #2D3748; /* Darker gray text */
+    }
+    .winner-select {
+      width: 200px;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 font-sans min-h-screen flex flex-col justify-center items-center p-6">
+  <div class="bg-white shadow-md rounded-lg p-6 w-full max-w-5xl">
+    <!-- Heading -->
+    <h1 class="text-4xl font-bold text-center mb-8 text-blue-600">Managing the Event</h1>
+    
+    <!-- Participation Type Selection -->
+    <div class="mb-6">
+      <h2 class="text-xl font-bold text-gray-700 mb-4">Select Participation Type</h2>
+      <select id="participation-type" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onchange="handleParticipationTypeChange()">
+        <option value="" disabled selected>Select one</option>
+        <option value="solo">Solo</option>
+        <option value="duo">Duo</option>
+        <option value="group">Group</option>
+      </select>
+    </div>
+    
+    <!-- Number of Participants or Teams -->
+    <div id="participants-input" class="mb-6 hidden">
+      <h2 class="text-xl font-bold text-gray-700 mb-4">Enter the number of participants/teams</h2>
+      <input id="num-participants" type="number" min="2" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter a number" oninput="handleNumParticipantsChange()">
+    </div>
+    
+    <!-- Player or Team Names -->
+    <div id="names-input" class="mb-6 hidden">
+      <h2 class="text-xl font-bold text-gray-700 mb-4">Enter Names of Players/Teams</h2>
+      <div id="names-container" class="mb-4"></div>
+      <button onclick="startTournament()" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded focus:outline-none focus:shadow-outline">
+        Start Tournament
+      </button>
+    </div>
+    
+    <!-- Brackets -->
+    <div id="brackets-output" class="hidden">
+      <h2 class="text-xl font-bold text-gray-700 mb-4">Tournament Brackets</h2>
+      <div id="brackets-container" class="mb-6 space-y-6"></div>
+      <button onclick="processNextRound()" id="confirm-winners-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded focus:outline-none focus:shadow-outline hidden">
+        Confirm Winners
+      </button>
+    </div>
+    
+    <!-- Rankings -->
+    <div id="rankings-output" class="hidden">
+      <h2 class="text-xl font-bold text-gray-700 mb-4">Final Rankings</h2>
+      <div id="rankings-container" class="space-y-4"></div>
+    </div>
+  </div>
+  
+  <script>
+    let names = [];
+    let currentRound = [];
+    let nextRound = [];
+    let rounds = [];
+    
+    function handleParticipationTypeChange() {
+      document.getElementById('participants-input').classList.remove('hidden');
+      document.getElementById('names-input').classList.add('hidden');
+      document.getElementById('brackets-output').classList.add('hidden');
+      document.getElementById('rankings-output').classList.add('hidden');
+      names = [];
+      currentRound = [];
+      nextRound = [];
+      rounds = [];
+    }
+    
+    function handleNumParticipantsChange() {
+      const numParticipants = parseInt(document.getElementById('num-participants').value);
+      if (!numParticipants || numParticipants < 2) return;
+      
+      const namesContainer = document.getElementById('names-container');
+      namesContainer.innerHTML = '';
+      
+      for (let i = 0; i < numParticipants; i++) {
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.placeholder = `Enter name for ${i + 1}`;
+        input.className = 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-2 leading-tight focus:outline-none focus:shadow-outline';
+        namesContainer.appendChild(input);
+      }
+      
+      document.getElementById('names-input').classList.remove('hidden');
+    }
+    
+    function startTournament() {
+      const inputs = document.querySelectorAll('#names-container input');
+      names = Array.from(inputs).map(input => input.value.trim()).filter(Boolean);
+      if (names.length % 2 !== 0) {
+        alert('Please enter an even number of participants/teams.');
+        return;
+      }
+      
+      currentRound = [...names];
+      rounds = [];
+      generateBrackets();
+    }
+    
+    function generateBrackets() {
+      const bracketsContainer = document.getElementById('brackets-container');
+      bracketsContainer.innerHTML = '';
+      nextRound = [];
+      
+      const roundDiv = document.createElement('div');
+      roundDiv.className = 'mb-6';
+      roundDiv.innerHTML = `<h3 class="text-2xl font-bold text-gray-800 mb-4">Round ${rounds.length + 1}</h3>`;
+      
+      for (let i = 0; i < currentRound.length; i += 2) {
+        if (i + 1 < currentRound.length) {
+          const matchDiv = document.createElement('div');
+          matchDiv.className = 'match-container flex justify-between items-center space-x-4';
+          matchDiv.innerHTML = `
+            <span class="text-lg font-medium text-gray-800">${currentRound[i]}</span>
+            <span class="vs-text">VS</span>
+            <span class="text-lg font-medium text-gray-800">${currentRound[i + 1]}</span>
+            <select class="winner-select shadow appearance-none border rounded py-1 px-2 text-gray-700 focus:outline-none focus:shadow-outline">
+              <option value="${currentRound[i]}">${currentRound[i]}</option>
+              <option value="${currentRound[i + 1]}">${currentRound[i + 1]}</option>
+            </select>
+          `;
+          roundDiv.appendChild(matchDiv);
+        }
+      }
+      
+      bracketsContainer.appendChild(roundDiv);
+      document.getElementById('brackets-output').classList.remove('hidden');
+      document.getElementById('confirm-winners-btn').classList.remove('hidden');
+    }
+    
+    function processNextRound() {
+      const winnerSelects = document.querySelectorAll('.winner-select');
+      nextRound = Array.from(winnerSelects).map(select => select.value);
+      
+      if (nextRound.length === 1) {
+        displayRankings();
+        return;
+      }
+      
+      rounds.push([...currentRound]);
+      currentRound = [...nextRound];
+      generateBrackets();
+    }
+    
+    function displayRankings() {
+      const rankingsContainer = document.getElementById('rankings-container');
+      rankingsContainer.innerHTML = '';
+      
+      nextRound.slice(0, 3).forEach((name, index) => {
+        const rankDiv = document.createElement('div');
+        rankDiv.className = 'flex items-center justify-between bg-green-200 text-lg font-medium text-gray-900 rounded py-3 px-4';
+        rankDiv.innerHTML = `
+          <span>${index === 0 ? "1st Rank" : index === 1 ? "2nd Rank" : "3rd Rank"}: ${name}</span>
+          <button onclick="window.location.href='addcredits.html'" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+            Add Credits
+          </button>
+        `;
+        rankingsContainer.appendChild(rankDiv);
+      });
+      
+      document.getElementById('rankings-output').classList.remove('hidden');
+      document.getElementById('brackets-output').classList.add('hidden');
+    }
+  </script>
+</body>
+</html>

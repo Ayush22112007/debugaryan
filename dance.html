@@ -1,0 +1,84 @@
+<html>
+ <head>
+  <title>
+   Dancing Competition - Event Management System
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+  <script>
+   function toggleParticipants() {
+     const performanceType = document.querySelector('input[name="performanceType"]:checked').value;
+     const participantsContainer = document.getElementById('participantsContainer');
+     if (performanceType === 'group') {
+       participantsContainer.style.display = 'block';
+     } else {
+       participantsContainer.style.display = 'none';
+       document.getElementById('numberOfParticipants').value = '';
+       document.getElementById('participantNames').innerHTML = '';
+     }
+   }
+
+   function generateParticipantInputs() {
+     const numberOfParticipants = document.getElementById('numberOfParticipants').value;
+     const participantNames = document.getElementById('participantNames');
+     participantNames.innerHTML = '';
+     for (let i = 0; i < numberOfParticipants; i++) {
+       const input = document.createElement('input');
+       input.type = 'text';
+       input.placeholder = `Participant ${i + 1} Name`;
+       input.className = 'w-full p-2 border rounded-lg mb-2';
+       participantNames.appendChild(input);
+     }
+   }
+  </script>
+ </head>
+ <body class="bg-gray-100 font-roboto">
+  <div class="container mx-auto p-6">
+   <div class="bg-white shadow-md rounded-lg p-6">
+    <h1 class="text-2xl font-bold mb-4">
+     Dancing Competition
+    </h1>
+    <div class="mb-4">
+     <a class="text-blue-500 hover:underline" href="cultural.html">
+      ← Back to Cultural Events
+     </a>
+    </div>
+    <div class="mb-4">
+     <img alt="Image of people dancing at a cultural event" class="w-full h-64 object-cover rounded-lg" height="256" src="https://storage.googleapis.com/a1aa/image/7YzJgkTKdGz0eQHp_rMCYg34Pb2FE-0wj1E0QT1WHR8.jpg" width="512"/>
+    </div>
+    <div class="mb-4">
+     <h2 class="text-xl font-bold mb-2">
+      Performance Type
+     </h2>
+     <div class="flex items-center mb-4">
+      <input checked class="mr-2" id="solo" name="performanceType" onclick="toggleParticipants()" type="radio" value="solo"/>
+      <label class="text-gray-700" for="solo">
+       Solo
+      </label>
+     </div>
+     <div class="flex items-center mb-4">
+      <input class="mr-2" id="group" name="performanceType" onclick="toggleParticipants()" type="radio" value="group"/>
+      <label class="text-gray-700" for="group">
+       Group
+      </label>
+     </div>
+    </div>
+    <div class="mb-4" id="participantsContainer" style="display: none;">
+     <label class="block text-gray-700 text-sm font-bold mb-2" for="numberOfParticipants">
+      Number of Participants
+     </label>
+     <input class="w-full p-2 border rounded-lg mb-4" id="numberOfParticipants" oninput="generateParticipantInputs()" placeholder="Enter number of participants" type="number"/>
+     <div id="participantNames">
+     </div>
+    </div>
+    <div class="mb-4">
+     <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+      Submit
+     </button>
+    </div>
+   </div>
+  </div>
+ </body>
+</html>

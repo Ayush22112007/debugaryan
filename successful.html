@@ -1,0 +1,44 @@
+<html>
+ <head>
+  <title>
+   Event Created Successfully
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+  <script>
+   function generateEventId() {
+            return Math.floor(100000 + Math.random() * 900000);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('eventId').innerText = generateEventId();
+        });
+  </script>
+ </head>
+ <body class="bg-gray-100 font-roboto">
+  <div class="container mx-auto p-6">
+   <div class="bg-white shadow-md rounded-lg p-6 text-center">
+    <h1 class="text-3xl font-bold mb-4 text-green-600">
+     Event Created Successfully!
+    </h1>
+    <div class="mb-4">
+     <img alt="Illustration of a successful event creation with a checkmark" class="w-32 h-32 mx-auto" height="128" src="https://storage.googleapis.com/a1aa/image/5TtHe0Ocgp91-e5shw5baGSQDeFukptkjH4An36U9xM.jpg" width="128"/>
+    </div>
+    <div class="mb-4">
+     <h2 class="text-xl font-bold mb-2">
+      Your Event ID
+     </h2>
+     <p class="text-2xl font-bold text-blue-500" id="eventId">
+     </p>
+    </div>
+    <div class="mt-6">
+     <a class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" href="index.html">
+      Back to Home Page
+     </a>
+    </div>
+   </div>
+  </div>
+ </body>
+</html>

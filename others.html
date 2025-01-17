@@ -1,0 +1,118 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Event</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script>
+        function generateEventId() {
+            return Math.floor(100000 + Math.random() * 900000).toString();
+        }
+
+        function handleSubmit(event) {
+            event.preventDefault();
+            const eventId = generateEventId();
+            const eventName = document.getElementById('event-name').value;
+            const startDate = document.getElementById('start-date').value;
+            const endDate = document.getElementById('end-date').value;
+            const registrationDeadline = document.getElementById('registration-deadline').value;
+            const eventTime = document.getElementById('event-time').value;
+            const eventVenue = document.getElementById('event-venue').value;
+            const eventDescription = document.getElementById('event-description').value;
+            const eventRules = document.getElementById('event-rules').value;
+
+            const eventDetails = {
+                eventId,
+                eventName,
+                startDate,
+                endDate,
+                registrationDeadline,
+                eventTime,
+                eventVenue,
+                eventDescription,
+                eventRules
+            };
+
+            localStorage.setItem(eventId, JSON.stringify(eventDetails));
+            window.location.href = `cr-success.html?eventId=${eventId}`;
+        }
+    </script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            if (!user || user.role !== 'Admin') {
+                document.body.innerHTML = `
+                    <div class="bg-gray-100 flex items-center justify-center min-h-screen">
+                        <div class="text-center">
+                            <h1 class="text-3xl font-bold text-red-600 mb-4">Access Denied</h1>
+                            <p class="text-lg text-gray-700">You are not authorized to access this page.</p>
+                            <a href="index.html" class="mt-6 inline-block bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-700">Go to Home</a>
+                        </div>
+                    </div>`;
+            }
+        });
+    </script>
+    
+    <main class="w-full max-w-lg bg-black p-8 rounded-lg shadow-md">
+        <h2 class="text-2xl font-bold text-center text-blue-600 mb-6">Event Creation and Management</h2>
+        <form id="event-form" onsubmit="handleSubmit(event)">
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="event-name">Event Name:</label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="event-name" type="text" name="event-name" required>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="start-date">Start Date of Event:</label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="start-date" type="date" name="start-date" required>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="end-date">End Date of Event:</label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="end-date" type="date" name="end-date" required>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="registration-deadline">Last Date for Registration:</label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="registration-deadline" type="date" name="registration-deadline" required>
+            </div>
+            <div class="mb-4 relative">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="event-time">Time:</label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline pl-10" id="event-time" type="time" name="event-time" required>
+                <i class="fas fa-clock absolute left-3 top-10 text-gray-500"></i>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="event-venue">Venue:</label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="event-venue" type="text" name="event-venue" required>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="event-description">Description:</label>
+                <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="event-description" name="event-description" rows="4" required></textarea>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="event-rules">Rules:</label>
+                <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="event-rules" name="event-rules" rows="4" required></textarea>
+            </div>
+            <div class="flex items-center justify-center">
+                <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                    Create Event
+                </button>
+            </div>
+        </form>
+    </main>
+    <script>
+        document.getElementById('start-date').addEventListener('change', function() {
+            const startDate = new Date(this.value);
+            const registrationDeadline = new Date(startDate);
+            registrationDeadline.setDate(startDate.getDate() - 1);
+            const formattedDate = registrationDeadline.toISOString().split('T')[0];
+            document.getElementById('end-date').setAttribute('min', this.value);
+            document.getElementById('registration-deadline').setAttribute('max', formattedDate);
+        });
+
+        document.getElementById('event-rules').addEventListener('input', function() {
+            const rules = this.value.split('\n').map(rule => `<li>${rule}</li>`).join('');
+            this.innerHTML = `<ul>${rules}</ul>`;
+        });
+    </script>
+</body>
+</html>

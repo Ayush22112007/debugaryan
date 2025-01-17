@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Event - Event Management System</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+  <script>
+    function generateEventId() {
+      return Math.floor(100000 + Math.random() * 900000).toString();
+    }
+
+    function handleSubmit(event) {
+      event.preventDefault();
+      const eventId = generateEventId();
+      const eventName = document.getElementById('eventName').value;
+      const startDate = document.getElementById('startDate').value;
+      const endDate = document.getElementById('endDate').value;
+      const eventDescription = document.getElementById('eventDescription').value;
+
+      const eventDetails = {
+        eventId,
+        eventName,
+        startDate,
+        endDate,
+        eventDescription,
+      };
+
+      // Add "event-" prefix to the key
+      localStorage.setItem(`event-${eventId}`, JSON.stringify(eventDetails));
+      window.location.href = `successful.html?eventId=${eventId}`;
+    }
+
+    function validateDates() {
+      const startDate = new Date(document.getElementById('startDate').value);
+      const endDate = new Date(document.getElementById('endDate').value);
+      if (endDate <= startDate) {
+        alert('End date must be greater than start date.');
+        return false;
+      }
+      return true;
+    }
+  </script>
+</head>
+<body class="bg-gray-100 font-roboto">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="bg-white shadow-md rounded-lg p-6">
+      <h1 class="text-2xl font-bold mb-6 text-center">
+        Create Event
+      </h1>
+      <form onsubmit="return validateDates()" class="space-y-6">
+        <div>
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="eventName">Event Name</label>
+          <input
+            id="eventName"
+            type="text"
+            placeholder="Enter event name"
+            class="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+          />
+        </div>
+        <div>
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="eventDescription">Event Description</label>
+          <textarea
+            id="eventDescription"
+            placeholder="Enter event description"
+            class="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            rows="4"
+            required
+          ></textarea>
+        </div>
+        <div>
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="startDate">Start Date</label>
+          <input
+            id="startDate"
+            type="date"
+            class="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+          />
+        </div>
+        <div>
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="endDate">End Date</label>
+          <input
+            id="endDate"
+            type="date"
+            class="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+          />
+        </div>
+        <div>
+          <label class="block text-gray-700 text-sm font-bold mb-2">Event Type</label>
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            <a href="sports.html" class="flex flex-col items-center justify-center p-6 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 focus:outline-none">
+              <img src="https://storage.googleapis.com/a1aa/image/7YzJgkTKdGz0eQHp_rMCYg34Pb2FE-0wj1E0QT1WHR8.jpg" alt="Sports" class="mb-2 w-16 h-16" />
+              <span class="text-sm font-semibold">Sports</span>
+            </a>
+            <a href="cultural.html" class="flex flex-col items-center justify-center p-6 bg-green-500 text-white rounded-lg shadow-md hover:bg-green-600 focus:outline-none">
+              <img src="https://storage.googleapis.com/a1aa/image/4izqrwAjr838OyxnKC5UQR3ELyJ0ilA4iOqJaGs3CsI.jpg" alt="Cultural" class="mb-2 w-16 h-16" />
+              <span class="text-sm font-semibold">Cultural</span>
+            </a>
+            <a href="technical.html" class="flex flex-col items-center justify-center p-6 bg-yellow-500 text-white rounded-lg shadow-md hover:bg-yellow-600 focus:outline-none">
+              <img src="https://storage.googleapis.com/a1aa/image/ITHXcNL8C0mBFFh5VlnMSmG6clLArAiItp3sWqjECZo.jpg" alt="Technical" class="mb-2 w-16 h-16" />
+              <span class="text-sm font-semibold">Technical</span>
+            </a>
+            <a href="management.html" class="flex flex-col items-center justify-center p-6 bg-red-500 text-white rounded-lg shadow-md hover:bg-red-600 focus:outline-none">
+              <img src="https://storage.googleapis.com/a1aa/image/4XyDUXErkSlT2EpWHdontF43YEanoAmjnMTYwbXBLLI.jpg" alt="Management" class="mb-2 w-16 h-16" />
+              <span class="text-sm font-semibold">Management</span>
+            </a>
+            <a href="social.html" class="flex flex-col items-center justify-center p-6 bg-purple-500 text-white rounded-lg shadow-md hover:bg-purple-600 focus:outline-none">
+              <img src="https://storage.googleapis.com/a1aa/image/dL965-oK-G8MOVN8XKt-IooDeyIuxIF2j5tG9e9uSgk.jpg" alt="Social" class="mb-2 w-16 h-16" />
+              <span class="text-sm font-semibold">Social</span>
+            </a>
+          </div>
+        </div>
+        <div>
+          <button
+            type="submit"
+            class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            Create Event
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

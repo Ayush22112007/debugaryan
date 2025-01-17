@@ -1,0 +1,99 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Registration</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+        <h2 class="text-2xl font-bold text-center text-blue-600 mb-6">Online Registration</h2>
+        <form id="registration-form">
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Name:</label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" type="text" placeholder="Enter your name" required>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="email">Email:</label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="Enter your email" required>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="phone">Phone:</label>
+                <div class="flex">
+                    <select class="shadow appearance-none border rounded-l w-1/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="country-code" required>
+                        <option value="+91">India +91</option>
+                    </select>
+                    <input class="shadow appearance-none border rounded-r w-3/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="phone" type="tel" placeholder="Enter your phone number" pattern="[0-9]{10}" required>
+                </div>
+            </div>
+            <div class="mb-6">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="event">Select Event:</label>
+                <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="event" required>
+                    <option value="" disabled selected>Select an event</option>
+                </select>
+            </div>
+            <div class="flex items-center justify-center">
+                <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" onclick="window.location.href='r-success.html'">
+                    Register
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Function to generate a unique participant ID
+        function populateEvents() {
+    const eventSelect = document.getElementById('event');
+    eventSelect.innerHTML = '<option value="" disabled selected>Select an event</option>';
+
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+
+        // Process only keys starting with "event-"
+        if (key.startsWith('event-')) {
+            try {
+                const eventDetails = JSON.parse(localStorage.getItem(key));
+
+                // Validate that eventDetails has required properties
+                if (eventDetails && eventDetails.eventId && eventDetails.eventName) {
+                    const option = document.createElement('option');
+                    option.value = eventDetails.eventId;
+                    option.textContent = `${eventDetails.eventName} (${eventDetails.eventId})`;
+                    eventSelect.appendChild(option);
+                }
+            } catch (e) {
+                console.warn(`Skipping invalid localStorage entry for key "${key}":`, e);
+            }
+        }
+    }
+}
+
+
+// Populate events on page load
+document.addEventListener('DOMContentLoaded', populateEvents);
+
+
+        // Handle form submission
+        document.getElementById('registration-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const participantId = generateParticipantId();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const eventSelected = document.getElementById('event').value;
+
+            const participantDetails = {
+                participantId,
+                name,
+                email,
+                phone,
+                eventSelected
+            };
+
+            localStorage.setItem(participantId, JSON.stringify(participantDetails));
+            alert('Registration successful! Your Participant ID is ' + participantId);
+            window.location.href = `r-success.html?participantId=${participantId}`;
+        });
+    </script>
+</body>
+</html>

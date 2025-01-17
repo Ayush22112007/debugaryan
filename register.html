@@ -1,0 +1,131 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - College Event Management System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script>
+        function handleRegister(event) {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const role = document.getElementById('role').value;
+            let password = '';
+
+            if (role === 'Admin') {
+                const adminPassword = document.getElementById('admin-password').value;
+                password = document.getElementById('admin-set-password').value;
+
+                if (adminPassword !== 'debugaryan') {
+                    alert('Invalid admin access code');
+                    return;
+                }
+
+                if (!password) {
+                    alert('Admin password is required');
+                    return;
+                }
+            } else if (role === 'Student') {
+                password = document.getElementById('student-password').value;
+            }
+
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const userExists = users.some(user => user.email === email);
+
+            if (userExists) {
+                alert('User with this email already exists');
+            } else {
+                const newUser = { name, email, role, password };
+                users.push(newUser);
+                localStorage.setItem('users', JSON.stringify(users));
+                alert('Registration successful');
+                window.location.href = 'login.html';
+            }
+        }
+
+        function togglePasswordField() {
+            const role = document.getElementById('role').value;
+            const adminPasswordField = document.getElementById('admin-password-field');
+            const adminSetPasswordField = document.getElementById('admin-set-password-field');
+            const studentPasswordField = document.getElementById('student-password-field');
+            const adminPasswordInput = document.getElementById('admin-password');
+            const adminSetPasswordInput = document.getElementById('admin-set-password');
+            const studentPasswordInput = document.getElementById('student-password');
+        
+            if (role === 'Admin') {
+                adminPasswordField.classList.remove('hidden');
+                adminSetPasswordField.classList.remove('hidden');
+                studentPasswordField.classList.add('hidden');
+                adminPasswordInput.setAttribute('required', 'true');
+                adminSetPasswordInput.setAttribute('required', 'true');
+                studentPasswordInput.removeAttribute('required');
+            } else if (role === 'Student') {
+                adminPasswordField.classList.add('hidden');
+                adminSetPasswordField.classList.add('hidden');
+                studentPasswordField.classList.remove('hidden');
+                studentPasswordInput.setAttribute('required', 'true');
+                adminPasswordInput.removeAttribute('required');
+                adminSetPasswordInput.removeAttribute('required');
+            } else {
+                adminPasswordField.classList.add('hidden');
+                adminSetPasswordField.classList.add('hidden');
+                studentPasswordField.classList.add('hidden');
+                adminPasswordInput.removeAttribute('required');
+                adminSetPasswordInput.removeAttribute('required');
+                studentPasswordInput.removeAttribute('required');
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+        <h2 class="text-2xl font-bold text-center text-blue-600 mb-6">Register</h2>
+        <form id="register-form" onsubmit="handleRegister(event)">
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Name:</label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" type="text" placeholder="Enter your name" required>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="email">Email:</label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="Enter your email" required>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="role">Role:</label>
+                <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="role" onchange="togglePasswordField()" required>
+                    <option value="" disabled selected>Select your role</option>
+                    <option value="Admin">Admin</option>
+                    <option value="Student">Student</option>
+                </select>
+            </div>
+
+            <!-- Admin Access Code Field -->
+            <div id="admin-password-field" class="mb-4 hidden">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="admin-password">Admin Access Code:</label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="admin-password" type="password" placeholder="Enter admin access code">
+            </div>
+
+            <!-- Admin Password Set Field -->
+            <div id="admin-set-password-field" class="mb-4 hidden">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="admin-set-password">Set Password:</label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="admin-set-password" type="password" placeholder="Set your password">
+            </div>
+
+            <!-- Student Password Field -->
+            <div id="student-password-field" class="mb-4 hidden">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="student-password">Password:</label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="student-password" type="password" placeholder="Set your password" required>
+            </div>
+
+            <div class="flex items-center justify-center">
+                <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                    Register
+                </button>
+            </div>
+        </form>
+        <div class="text-center mt-4">
+            <p class="text-gray-700">Already have an account? <a href="login.html" class="text-blue-600 hover:underline">Login</a></p>
+        </div>
+    </div>
+</body>
+</html>

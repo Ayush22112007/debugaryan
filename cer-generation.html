@@ -1,0 +1,52 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificate Generation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"></link>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="text-center">
+        <h1 class="text-2xl font-bold text-blue-600 mb-8">Certificate of Participation</h1>
+        <div id="certificate-content" class="bg-white p-8 rounded-lg shadow-lg max-w-lg mx-auto">
+            <p class="text-lg mb-4">This is to certify that <span id="participant-name" class="font-semibold"></span> has successfully participated in the event "<span id="event-name" class="font-semibold"></span>" held from <span id="start-date" class="font-semibold"></span> to <span id="end-date" class="font-semibold"></span>.</p>
+            <p class="text-lg mb-4">We appreciate their dedication and active involvement in making the event a success.</p>
+            <p class="text-lg">Presented on <span id="date-of-issuance" class="font-semibold"></span></p>
+        </div>
+        <button id="download-pdf" class="mt-8 px-4 py-2 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600">Download PDF</button>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const participantId = localStorage.getItem('participantId');
+            const eventId = localStorage.getItem('eventId');
+
+            // Mock data for demonstration purposes
+            const participantName = "John Doe";
+            const eventName = "Tech Conference 2023";
+            const startDate = "January 1, 2023";
+            const endDate = "January 3, 2023";
+            const dateOfIssuance = new Date().toLocaleDateString();
+
+            document.getElementById('participant-name').textContent = participantName;
+            document.getElementById('event-name').textContent = eventName;
+            document.getElementById('start-date').textContent = startDate;
+            document.getElementById('end-date').textContent = endDate;
+            document.getElementById('date-of-issuance').textContent = dateOfIssuance;
+
+            document.getElementById('download-pdf').addEventListener('click', function() {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+
+                doc.text("Certificate of Participation", 20, 20);
+                doc.text(`This is to certify that ${participantName} has successfully participated in the event "${eventName}" held from ${startDate} to ${endDate}.`, 20, 40);
+                doc.text("We appreciate their dedication and active involvement in making the event a success.", 20, 60);
+                doc.text(`Presented on ${dateOfIssuance}`, 20, 80);
+
+                doc.save('certificate.pdf');
+            });
+        });
+    </script>
+</body>
+</html>

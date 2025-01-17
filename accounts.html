@@ -1,0 +1,69 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Information - College Event Management System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+        h2 {
+            font-family: 'Montserrat', sans-serif;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            const userInfoContainer = document.getElementById('user-info');
+
+            if (currentUser) {
+                userInfoContainer.innerHTML = `
+                    <div id="account-info" class="bg-white p-8 rounded-lg shadow-lg">
+                        <h2 class="text-3xl font-bold text-blue-600 mb-6">Account Information</h2>
+                        <div class="mb-4">
+                            <p class="text-lg text-gray-800"><span class="font-semibold">Name:</span> ${currentUser.name}</p>
+                            <p class="text-lg text-gray-800"><span class="font-semibold">Email:</span> ${currentUser.email}</p>
+                            <p class="text-lg text-gray-800"><span class="font-semibold">Role:</span> ${currentUser.role}</p>
+                        </div>
+                        <div class="flex space-x-4">
+                            <button id="logout-button" class="bg-gradient-to-r from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 text-white font-bold py-2 px-6 rounded-full transition duration-300 shadow-lg transform hover:scale-105">Logout</button>
+                            <button id="delete-account-button" class="bg-gradient-to-r from-gray-500 to-gray-700 hover:from-gray-600 hover:to-gray-800 text-white font-bold py-2 px-6 rounded-full transition duration-300 shadow-lg transform hover:scale-105">Delete Account</button>
+                        </div>
+                    </div>
+                `;
+
+                document.getElementById('logout-button').addEventListener('click', function() {
+                    alert('You have been logged out.');
+                    window.location.href = 'index.html';
+                });
+
+                document.getElementById('delete-account-button').addEventListener('click', function() {
+                    const confirmDelete = confirm('Are you sure you want to delete your account? This action cannot be undone.');
+                    if (confirmDelete) {
+                        localStorage.removeItem('currentUser');
+                        alert('Your account has been deleted.');
+                        window.location.href = 'index.html';
+                    }
+                });
+            } else {
+                userInfoContainer.innerHTML = `
+                    <div class="bg-white p-8 rounded-lg shadow-lg">
+                        <p class="text-lg text-gray-800">No user is currently logged in.</p>
+                        <div class="mt-6">
+                            <a href="login.html" class="bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white font-bold py-2 px-6 rounded-full transition duration-300 shadow-lg transform hover:scale-105">Go to Login</a>
+                        </div>
+                    </div>
+                `;
+            }
+        });
+    </script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div id="user-info" class="w-full max-w-md">
+        <!-- User information will be injected here -->
+    </div>
+</body>
+</html>  

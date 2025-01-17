@@ -1,0 +1,320 @@
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   College Event Management System
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;family=Poppins:wght@500;700&amp;display=swap" rel="stylesheet"/>
+  <style>
+   body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to bottom, #e2e8f0, #f8fafc);
+        }
+        .hover-animate {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .hover-animate:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        .fade-in {
+            animation: fadeIn 1.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        .section {
+            padding: 4rem 2rem;
+        }
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(31, 41, 55, 0.9);
+            backdrop-filter: blur(10px);
+        }
+        .navbar a:hover {
+            color: #49596d;
+        }
+        .btn-primary {
+            background-color: #17191fc7;
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #2563eb;
+        }
+        .search-suggestions {
+            position: absolute;
+            background: white;
+            border-radius: 0.5rem;
+            border: 1px solid #e5e7eb;
+            width: 100%;
+            max-height: 250px;
+            overflow-y: auto;
+            z-index: 20;
+        }
+        .search-suggestion {
+            padding: 0.75rem;
+            border-bottom: 1px solid #e5e7eb;
+            cursor: pointer;
+        }
+        .search-suggestion:last-child {
+            border-bottom: none;
+        }
+        .search-suggestion:hover {
+            background-color: #f3f4f6;
+        }
+        footer {
+            background: #1f2937;
+            color: #f9fafb;
+        }
+        .feature-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 0.5rem;
+        }
+  </style>
+ </head>
+ <body class="flex flex-col min-h-screen">
+  <!-- Navbar -->
+  <nav class="navbar shadow-lg">
+   <div class="container mx-auto flex justify-between items-center py-4 px-6">
+    <div class="text-white text-xl font-bold">
+     Debugaryan
+    </div>
+    <div class="hidden md:flex space-x-6">
+     <a class="text-gray-300 hover:text-blue-400 cursor-pointer" onclick="scrollToSection('home')">
+      Home
+     </a>
+     <a class="text-gray-300 hover:text-blue-400 cursor-pointer" onclick="scrollToSection('features')">
+      Features
+     </a>
+     <a class="text-gray-300 hover:text-blue-400 cursor-pointer" onclick="scrollToSection('why-us')">
+      Why Us
+     </a>
+     <a class="text-gray-300 hover:text-blue-400 cursor-pointer" onclick="scrollToSection('contact')">
+      Contact Us
+     </a>
+    </div>
+    <div class="text-white flex space-x-4">
+     <i class="fas fa-user text-2xl hover:text-blue-400 cursor-pointer" onclick="window.location.href='accounts.html'">
+     </i>
+     <i class="fas fa-calendar-check text-2xl hover:text-blue-400 cursor-pointer" onclick="window.location.href='participation.html'">
+     </i>
+     <i class="fas fa-wallet text-2xl hover:text-blue-400 cursor-pointer" onclick="window.location.href='wallet.html'">
+     </i>
+     <i class="fas fa-sign-out-alt text-2xl hover:text-blue-400 cursor-pointer" onclick="logout()">
+     </i>
+    </div>
+   </div>
+  </nav>
+  <!-- Search Bar -->
+  <div class="container mx-auto my-8 flex justify-center relative">
+   <div id="search-container">
+   </div>
+  </div>
+  <!-- Hero Section -->
+  <section class="section text-center bg-gradient-to-r from-blue-500 to-indigo-500 text-white" id="home">
+   <div class="container mx-auto">
+    <h1 class="text-5xl md:text-6xl font-bold fade-in">
+     College Event Management System
+    </h1>
+    <p class="mt-4 text-xl md:text-2xl">
+     Manage and participate in college events seamlessly.
+    </p>
+    <a class="mt-8 btn-primary inline-block py-3 px-6 rounded-lg text-lg" href="register.html">
+     Get Started
+    </a>
+   </div>
+  </section>
+  <!-- Features Section -->
+  <section class="section bg-white" id="features">
+   <div class="container mx-auto text-center">
+    <h2 class="text-4xl font-bold mb-8">
+     Our Features
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+     <div class="hover-animate p-6 bg-gray-100 rounded-lg shadow-md">
+      <img alt="Illustration of creating an event" class="feature-image" src="https://www.swipez.in/images/product/event-registration/features/online-event-creator.svg"/>
+      <h3 class="text-2xl font-semibold mb-4">
+       Create Event
+      </h3>
+      <button class="btn-primary py-2 px-4 rounded-lg" onclick="window.location.href='create.html'">
+       Create Now
+      </button>
+     </div>
+     <div class="hover-animate p-6 bg-gray-100 rounded-lg shadow-md">
+      <img alt="Illustration of event registration" class="feature-image" src="https://www.bizzabo.com/wp-content/uploads/2018/10/12-Registration-Pages-for-Events-That-Convert_16x9.png"/>
+      <h3 class="text-2xl font-semibold mb-4">
+       Event Registration
+      </h3>
+      <button class="btn-primary py-2 px-4 rounded-lg" onclick="window.location.href='Registration.html'">
+       Register Now
+      </button>
+     </div>
+     <div class="hover-animate p-6 bg-gray-100 rounded-lg shadow-md">
+      <img alt="Illustration of e-certificate" class="feature-image" src="https://storage.googleapis.com/a1aa/image/NJYCixOZ1TWF3V6UOtslXhfqc102VE9odAdTnf9lhBY.jpg"/>
+      <h3 class="text-2xl font-semibold mb-4">
+       E-Certificate
+      </h3>
+      <button class="btn-primary py-2 px-4 rounded-lg" onclick="window.location.href='Certificates.html'">
+       Get Certificate
+      </button>
+     </div>
+     <div class="hover-animate p-6 bg-gray-100 rounded-lg shadow-md">
+      <img alt="Illustration of attendance tracking" class="feature-image" src="https://www.lystloc.com/blog/wp-content/uploads/2022/11/bloger.webp"/>
+      <h3 class="text-2xl font-semibold mb-4">
+       Attendance Tracking
+      </h3>
+      <button class="btn-primary py-2 px-4 rounded-lg" onclick="window.location.href='Attendance.html'">
+       Track Attendance
+      </button>
+     </div>
+     <div class="hover-animate p-6 bg-gray-100 rounded-lg shadow-md">
+      <img alt="Illustration of ticket booking" class="feature-image" src="https://cdn.prod.website-files.com/64ad227a3e66387fc5d89320/655de25b45086156939a7821_Event-Ticket-Booking.jpg"/>
+      <h3 class="text-2xl font-semibold mb-4">
+       Ticket Booking
+      </h3>
+      <button class="btn-primary py-2 px-4 rounded-lg" onclick="window.location.href='booknow.html'">
+       Book Tickets
+      </button>
+     </div>
+    </div>
+   </div>
+  </section>
+  <!-- Why Us Section -->
+  <section class="section bg-gray-100" id="why-us">
+   <div class="container mx-auto text-center">
+    <h2 class="text-4xl font-bold mb-8">
+     Why Choose Us?
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+     <div class="hover-animate p-8 bg-white rounded-lg shadow-md">
+      <img alt="Illustration of user-friendly interface" class="feature-image" src="https://storage.googleapis.com/a1aa/image/7s632dzdMDyphSlD1t9DzXRcZESYxMGf5063o7eUmlU.jpg"/>
+      <h3 class="text-2xl font-semibold mb-4">
+       User-Friendly Interface
+      </h3>
+      <p>
+       Our platform is designed to be intuitive and easy to use for everyone.
+      </p>
+     </div>
+     <div class="hover-animate p-8 bg-white rounded-lg shadow-md">
+      <img alt="Illustration of comprehensive tools" class="feature-image" src="https://storage.googleapis.com/a1aa/image/wh3syysARrZunTUaSTW8W6zvfDgHsfII2mYkN3nGnog.jpg"/>
+      <h3 class="text-2xl font-semibold mb-4">
+       Comprehensive Tools
+      </h3>
+      <p>
+       We provide a wide range of tools to help you manage and participate in events effectively.
+      </p>
+     </div>
+     <div class="hover-animate p-8 bg-white rounded-lg shadow-md">
+      <img alt="Illustration of reliable support" class="feature-image" src="https://png.pngtree.com/png-vector/20220518/ourmid/pngtree-person-reliability-icon-color-flat-png-image_4695079.png"/>
+      <h3 class="text-2xl font-semibold mb-4">
+       Reliable Support
+      </h3>
+      <p>
+       Our support team is always ready to assist you with any issues or questions.
+      </p>
+     </div>
+     <div class="hover-animate p-8 bg-white rounded-lg shadow-md">
+      <img alt="Illustration of secure and private data" class="feature-image" src="https://storage.googleapis.com/a1aa/image/n2WsNB1GWh4RF2p24XC-__nYP64OAqsLARb7kXYZhNM.jpg"/>
+      <h3 class="text-2xl font-semibold mb-4">
+       Secure and Private
+      </h3>
+      <p>
+       We prioritize your privacy and ensure that your data is secure with us.
+      </p>
+     </div>
+    </div>
+   </div>
+  </section>
+  <!-- Contact Us Section -->
+  <section class="section bg-white" id="contact">
+   <div class="container mx-auto text-center">
+    <h2 class="text-4xl font-bold mb-8">
+     Contact Us
+    </h2>
+    <form class="max-w-lg mx-auto">
+     <div class="mb-4">
+      <input class="w-full px-4 py-2 border rounded-lg" placeholder="Your Name" required="" type="text"/>
+     </div>
+     <div class="mb-4">
+      <input class="w-full px-4 py-2 border rounded-lg" placeholder="Your Email" required="" type="email"/>
+     </div>
+     <div class="mb-4">
+      <textarea class="w-full px-4 py-2 border rounded-lg" placeholder="Your Message" required="" rows="4"></textarea>
+     </div>
+     <button class="btn-primary py-3 px-6 rounded-lg text-lg" type="submit">
+      Send Message
+     </button>
+    </form>
+   </div>
+  </section>
+  <!-- Footer -->
+  <footer class="py-6">
+   <div class="container mx-auto text-center">
+    <p>
+     © 2023 DebugAryan. All rights reserved.
+    </p>
+   </div>
+  </footer>
+  <script>
+   function toggleCreditPoints() {
+            alert('Credit Points feature coming soon!');
+        }
+
+        function logout() {
+            alert('Logging out...');
+        }
+
+        function showSuggestions(value, suggestionsContainerId) {
+            const suggestions = document.getElementById(suggestionsContainerId);
+            const features = [
+                'Event Registration',
+                'Create Event',
+                'E-Certificate',
+                'Attendance Tracking',
+                'Ticket Booking'
+            ];
+            if (value.length > 0) {
+                const filteredSuggestions = features.filter(feature => feature.toLowerCase().includes(value.toLowerCase()));
+                suggestions.classList.remove('hidden');
+                suggestions.innerHTML = filteredSuggestions.map(suggestion => `<div class="search-suggestion" onclick="redirectToFeatures()">${suggestion}</div>`).join('');
+            } else {
+                suggestions.classList.add('hidden');
+                suggestions.innerHTML = '';
+            }
+        }
+
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function redirectToFeatures() {
+            window.location.href = '#features';
+        }
+
+        function createSearchBox(containerId) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = `
+                <input class="w-full md:w-3/4 px-4 py-2 border rounded-lg" oninput="showSuggestions(this.value, 'search-suggestions-${containerId}')" placeholder="Search..." type="text"/>
+                <div class="search-suggestions hidden" id="search-suggestions-${containerId}"></div>
+            `;
+        }
+
+        // Initialize the search box
+        createSearchBox('search-container');
+  </script>
+ </body>
+</html>

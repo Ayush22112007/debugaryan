@@ -1,0 +1,63 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Tracking</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"></link>
+    <script>
+        async function handleSubmit(event) {
+            event.preventDefault();
+            const eventId = document.getElementById('event-id').value;
+            const participantId = document.getElementById('participant-id').value;
+
+            try {
+                const response = await fetch('/mark-attendance', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ eventId, participantId }),
+                });
+
+                if (response.ok) {
+                    // Redirect to success page if the request is successful
+                    window.location.href = 'att-success.html';
+                } else {
+                    alert('Failed to mark attendance. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred. Please check your network connection.');
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            if (user && user.role === 'Admin') {
+                document.getElementById('admin-links').classList.remove('hidden');
+            }
+        });
+    </script>
+    
+    <div class="bg-white p-8 rounded shadow-md w-full max-w-md">
+        <h1 class="text-2xl font-bold text-center text-blue-600 mb-6">Attendance Tracking</h1>
+        <form onsubmit="handleSubmit(event)">
+            <div class="mb-4">
+                <label for="event-id" class="block text-gray-700 font-bold mb-2">Event ID:</label>
+                <input type="text" id="event-id" class="w-full px-3 py-2 border rounded" placeholder="Enter Event ID">
+            </div>
+            <div class="mb-6">
+                <label for="participant-id" class="block text-gray-700 font-bold mb-2">Participant ID:</label>
+                <input type="text" id="participant-id" class="w-full px-3 py-2 border rounded" placeholder="Enter Participant ID">
+            </div>
+            <div>
+                <button type="submit" class="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-700">Mark Attendance</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Created Successfully</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex flex-col min-h-screen">
+    <main class="flex-grow w-full max-w-lg mx-auto bg-white p-8 rounded-lg shadow-md mt-8 text-center">
+        <h2 class="text-2xl font-bold text-green-600 mb-6">Event Created Successfully</h2>
+        <p class="text-gray-700 mb-6">Your event has been successfully created. Here are the details of your event:</p>
+        <div class="text-left mb-6">
+            <p class="text-gray-700"><span class="font-bold">Event ID:</span> <span id="event-id" class="text-blue-600"></span></p>
+            <p class="text-gray-700"><span class="font-bold">Event Name:</span> <span id="event-name" class="text-blue-600"></span></p>
+            <p class="text-gray-700"><span class="font-bold">Start Date:</span> <span id="start-date" class="text-blue-600"></span></p>
+            <p class="text-gray-700"><span class="font-bold">End Date:</span> <span id="end-date" class="text-blue-600"></span></p>
+            <p class="text-gray-700"><span class="font-bold">Time:</span> <span id="event-time" class="text-blue-600"></span></p>
+            <p class="text-gray-700"><span class="font-bold">Venue:</span> <span id="event-venue" class="text-blue-600"></span></p>
+            <p class="text-gray-700"><span class="font-bold">Description:</span> <span id="event-description" class="text-blue-600"></span></p>
+        </div>
+        <div class="flex justify-center space-x-4">
+            <a href="create.html" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Create Another Event</a>
+            <a href="index.html" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Done</a>
+        </div>
+    </main>
+    <script>
+        // Retrieve the event details from the URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const eventId = urlParams.get('eventId');
+        const eventDetails = JSON.parse(localStorage.getItem(eventId));
+
+        if (eventDetails) {
+            document.getElementById('event-id').textContent = eventDetails.eventId;
+            document.getElementById('event-name').textContent = eventDetails.eventName;
+            document.getElementById('start-date').textContent = eventDetails.startDate;
+            document.getElementById('end-date').textContent = eventDetails.endDate;
+            document.getElementById('event-time').textContent = eventDetails.eventTime;
+            document.getElementById('event-venue').textContent = eventDetails.eventVenue;
+            document.getElementById('event-description').textContent = eventDetails.eventDescription;
+        }
+    </script>
+</body>
+</html>
