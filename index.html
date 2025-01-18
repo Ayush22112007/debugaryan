@@ -190,6 +190,15 @@
        Book Tickets
       </button>
      </div>
+     <div class="hover-animate p-6 bg-gray-100 rounded-lg shadow-md">
+      <img alt="Illustration of volunteer management" class="feature-image" height="400" src="https://storage.googleapis.com/a1aa/image/Jl9gmC6xFejW92l3Hk3_vmthPM4ZYNEJ0wHEWjFQEDQ.jpg" width="600"/>
+      <h3 class="text-2xl font-semibold mb-4">
+       Volunteer Management
+      </h3>
+      <button class="btn-primary py-2 px-4 rounded-lg" onclick="window.location.href='volunteer.html'">
+       Manage Volunteers
+      </button>
+     </div>
     </div>
    </div>
   </section>
@@ -275,7 +284,12 @@
         }
 
         function logout() {
-            alert('Logging out...');
+            // Clear session or authentication tokens
+            localStorage.removeItem('authToken'); // Example for localStorage
+            document.cookie = "authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"; // Example for cookies
+
+            // Redirect to login page or home page after logout
+            window.location.href = 'login.html';
         }
 
         function showSuggestions(value, suggestionsContainerId) {
@@ -285,7 +299,8 @@
                 'Create Event',
                 'E-Certificate',
                 'Attendance Tracking',
-                'Ticket Booking'
+                'Ticket Booking',
+                'Volunteer Management'
             ];
             if (value.length > 0) {
                 const filteredSuggestions = features.filter(feature => feature.toLowerCase().includes(value.toLowerCase()));
