@@ -1,0 +1,180 @@
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Volunteer Registration for Sports Events
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet"/>
+ </head>
+ <body class="bg-gray-100 font-roboto">
+  <div class="container mx-auto p-4">
+   <h1 class="text-4xl font-bold text-center mb-8">
+    Volunteer Registration for Sports Events
+   </h1>
+   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+    <div class="bg-white p-6 rounded-lg shadow-lg">
+     <img alt="Cricket match in progress with players on the field" class="w-full h-48 object-cover rounded-md mb-4" height="200" src="https://storage.googleapis.com/a1aa/image/Wxb7S6eShIgUxUHxlv26DMjbAKSwxbSfSi6v0IHNBok.jpg" width="300"/>
+     <h2 class="text-2xl font-bold mb-4">
+      Cricket
+     </h2>
+     <button class="bg-blue-500 text-white px-6 py-3 rounded-md" onclick="selectSport('Cricket')">
+      Select
+     </button>
+    </div>
+    <div class="bg-white p-6 rounded-lg shadow-lg">
+     <img alt="Badminton match with players in action" class="w-full h-48 object-cover rounded-md mb-4" height="200" src="https://storage.googleapis.com/a1aa/image/DRyo1YKG4_AWJ9QR4-nn-Cw0ui5oboWNLKLjBGB5rfE.jpg" width="300"/>
+     <h2 class="text-2xl font-bold mb-4">
+      Badminton
+     </h2>
+     <button class="bg-blue-500 text-white px-6 py-3 rounded-md" onclick="selectSport('Badminton')">
+      Select
+     </button>
+    </div>
+    <div class="bg-white p-6 rounded-lg shadow-lg">
+     <img alt="Football match with players running on the field" class="w-full h-48 object-cover rounded-md mb-4" height="200" src="https://storage.googleapis.com/a1aa/image/Bx_UnapjvNSkDuAM-ulGVNqF3M72K9v0xadLR6iXlys.jpg" width="300"/>
+     <h2 class="text-2xl font-bold mb-4">
+      Football
+     </h2>
+     <button class="bg-blue-500 text-white px-6 py-3 rounded-md" onclick="selectSport('Football')">
+      Select
+     </button>
+    </div>
+    <div class="bg-white p-6 rounded-lg shadow-lg">
+     <img alt="Basketball game with players jumping to score" class="w-full h-48 object-cover rounded-md mb-4" height="200" src="https://storage.googleapis.com/a1aa/image/3I7OsvocTy6Hjs9wd4ZJMHh4ofmwchAogVf0qvlhHRU.jpg" width="300"/>
+     <h2 class="text-2xl font-bold mb-4">
+      Basketball
+     </h2>
+     <button class="bg-blue-500 text-white px-6 py-3 rounded-md" onclick="selectSport('Basketball')">
+      Select
+     </button>
+    </div>
+    <div class="bg-white p-6 rounded-lg shadow-lg">
+     <img alt="Kabbadi match with players in action" class="w-full h-48 object-cover rounded-md mb-4" height="200" src="https://storage.googleapis.com/a1aa/image/8JIucC-i4SzMHYGj4Mm-w25z0RfAFuuhSQx35oeTiYw.jpg" width="300"/>
+     <h2 class="text-2xl font-bold mb-4">
+      Kabbadi
+     </h2>
+     <button class="bg-blue-500 text-white px-6 py-3 rounded-md" onclick="selectSport('Kabbadi')">
+      Select
+     </button>
+    </div>
+    <div class="bg-white p-6 rounded-lg shadow-lg">
+     <img alt="Volleyball match with players jumping to hit the ball" class="w-full h-48 object-cover rounded-md mb-4" height="200" src="https://storage.googleapis.com/a1aa/image/bfChilr8m8Bq5p4wbV6Fb7pstTGw5Gmk-dJPN_soKcE.jpg" width="300"/>
+     <h2 class="text-2xl font-bold mb-4">
+      Volleyball
+     </h2>
+     <button class="bg-blue-500 text-white px-6 py-3 rounded-md" onclick="selectSport('Volleyball')">
+      Select
+     </button>
+    </div>
+   </div>
+   <form class="bg-white p-8 rounded-lg shadow-lg hidden" id="volunteerForm">
+    <h2 class="text-3xl font-bold mb-6">
+     Volunteer Information
+    </h2>
+    <div class="mb-6">
+     <label class="block text-gray-700 font-bold mb-2" for="volunteerCount">
+      Number of Volunteers Needed:
+     </label>
+     <input class="w-full px-4 py-3 border rounded-md" id="volunteerCount" name="volunteerCount" readonly="" type="number"/>
+    </div>
+   </form>
+   <div class="mt-8 hidden" id="assignedRoles">
+    <h2 class="text-3xl font-bold mb-6">
+     Assigned Roles
+    </h2>
+    <div id="rolesContainer">
+    </div>
+   </div>
+  </div>
+  <script>
+   const sportsData = {
+    'Cricket': {
+      volunteersNeeded: 8,
+      roles: {
+        'Logistics': { count: 2, tasks: ['Set up equipment', 'Manage supplies'] },
+        'Hospitality': { count: 2, tasks: ['Welcome guests', 'Provide refreshments'] },
+        'Scorekeeping': { count: 2, tasks: ['Record scores', 'Update scoreboard'] },
+        'Event Coordination': { count: 2, tasks: ['Coordinate with teams', 'Ensure schedule adherence'] }
+      }
+    },
+    'Badminton': {
+      volunteersNeeded: 8,
+      roles: {
+        'Logistics': { count: 2, tasks: ['Set up nets', 'Manage shuttlecocks'] },
+        'Hospitality': { count: 2, tasks: ['Welcome players', 'Provide refreshments'] },
+        'Scorekeeping': { count: 2, tasks: ['Record scores', 'Update scoreboard'] },
+        'Event Coordination': { count: 2, tasks: ['Coordinate matches', 'Ensure schedule adherence'] }
+      }
+    },
+    'Football': {
+      volunteersNeeded: 8,
+      roles: {
+        'Logistics': { count: 2, tasks: ['Set up field', 'Manage equipment'] },
+        'Hospitality': { count: 2, tasks: ['Welcome teams', 'Provide refreshments'] },
+        'Scorekeeping': { count: 2, tasks: ['Record scores', 'Update scoreboard'] },
+        'Event Coordination': { count: 2, tasks: ['Coordinate with referees', 'Ensure schedule adherence'] }
+      }
+    },
+    'Basketball': {
+      volunteersNeeded: 8,
+      roles: {
+        'Logistics': { count: 2, tasks: ['Set up court', 'Manage equipment'] },
+        'Hospitality': { count: 2, tasks: ['Welcome players', 'Provide refreshments'] },
+        'Scorekeeping': { count: 2, tasks: ['Record scores', 'Update scoreboard'] },
+        'Event Coordination': { count: 2, tasks: ['Coordinate with referees', 'Ensure schedule adherence'] }
+      }
+    },
+    'Kabbadi': {
+      volunteersNeeded: 8,
+      roles: {
+        'Logistics': { count: 2, tasks: ['Set up field', 'Manage equipment'] },
+        'Hospitality': { count: 2, tasks: ['Welcome teams', 'Provide refreshments'] },
+        'Scorekeeping': { count: 2, tasks: ['Record scores', 'Update scoreboard'] },
+        'Event Coordination': { count: 2, tasks: ['Coordinate with referees', 'Ensure schedule adherence'] }
+      }
+    },
+    'Volleyball': {
+      volunteersNeeded: 8,
+      roles: {
+        'Logistics': { count: 2, tasks: ['Set up nets', 'Manage equipment'] },
+        'Hospitality': { count: 2, tasks: ['Welcome players', 'Provide refreshments'] },
+        'Scorekeeping': { count: 2, tasks: ['Record scores', 'Update scoreboard'] },
+        'Event Coordination': { count: 2, tasks: ['Coordinate matches', 'Ensure schedule adherence'] }
+      }
+    }
+   };
+
+   function selectSport(sport) {
+    const form = document.getElementById('volunteerForm');
+    const volunteerCountInput = document.getElementById('volunteerCount');
+    const assignedRoles = document.getElementById('assignedRoles');
+    const rolesContainer = document.getElementById('rolesContainer');
+
+    form.classList.remove('hidden');
+    assignedRoles.classList.remove('hidden');
+
+    volunteerCountInput.value = sportsData[sport].volunteersNeeded;
+
+    rolesContainer.innerHTML = '';
+    const roles = sportsData[sport].roles;
+    for (const role in roles) {
+      const tasks = roles[role].tasks;
+      const roleDiv = document.createElement('div');
+      roleDiv.classList.add('bg-white', 'p-6', 'rounded-lg', 'shadow-md', 'mt-4');
+      let taskAssignment = tasks.map((task, i) => `Volunteer ${i + 1}: ${task}`).join('<br>');
+      roleDiv.innerHTML = `
+        <h3 class="text-xl font-bold mb-2">${role}</h3>
+        <p class="mb-2">Volunteers Needed: ${roles[role].count}</p>
+        <p class="mb-2"><strong>Tasks:</strong></p>
+        <p>${taskAssignment}</p>
+      `;
+      rolesContainer.appendChild(roleDiv);
+    }
+   }
+  </script>
+ </body>
+</html>
