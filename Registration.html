@@ -29,11 +29,12 @@
             <div class="mb-6">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="event">Select Event:</label>
                 <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="event" required>
-                    <option value="" disabled selected>Select an event</option>
+                    <option value="">Select an event</option>
+                    <option value="zest">Zest</option>
                 </select>
             </div>
             <div class="flex items-center justify-center">
-                <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" onclick="window.location.href='r-success.html'">
+                <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
                     Register
                 </button>
             </div>
@@ -42,36 +43,9 @@
 
     <script>
         // Function to generate a unique participant ID
-        function populateEvents() {
-    const eventSelect = document.getElementById('event');
-    eventSelect.innerHTML = '<option value="" disabled selected>Select an event</option>';
-
-    for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-
-        // Process only keys starting with "event-"
-        if (key.startsWith('event-')) {
-            try {
-                const eventDetails = JSON.parse(localStorage.getItem(key));
-
-                // Validate that eventDetails has required properties
-                if (eventDetails && eventDetails.eventId && eventDetails.eventName) {
-                    const option = document.createElement('option');
-                    option.value = eventDetails.eventId;
-                    option.textContent = `${eventDetails.eventName} (${eventDetails.eventId})`;
-                    eventSelect.appendChild(option);
-                }
-            } catch (e) {
-                console.warn(`Skipping invalid localStorage entry for key "${key}":`, e);
-            }
+        function generateParticipantId() {
+            return 'participant-' + Math.random().toString(36).substr(2, 9);
         }
-    }
-}
-
-
-// Populate events on page load
-document.addEventListener('DOMContentLoaded', populateEvents);
-
 
         // Handle form submission
         document.getElementById('registration-form').addEventListener('submit', function(event) {
